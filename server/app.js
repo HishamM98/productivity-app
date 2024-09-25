@@ -1,20 +1,38 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const db = require("./models");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const usersRouter = require("./routes/users");
+const projectsRouter = require("./routes/projects");
+const tasksRouter = require("./routes/tasks");
+// const eventsRouter = require("./routes/events");
 
-var app = express();
+const cors = require("cors");
+require("dotenv").config();
 
-app.use(logger('dev'));
+const app = express();
+
+app.use(logger("dev"));
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+(async () => {
+  await db.sequelize.sync({ force: false });
+})();
+
+app.use("/users", usersRouter);
+app.use("/projects", projectsRouter);
+app.use("/tasks", tasksRouter);
+// app.use("/events", eventsRouter);
 
 module.exports = app;
+
+// TODO: implement events func
+// TODO: implement task tags func
+// TODO: retouch endpoints validation
+// TODO: check for needed functionality
