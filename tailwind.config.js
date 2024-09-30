@@ -4,7 +4,12 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        DarkGreen: "#181C14",
+        DarkGray: "#3C3D37",
+        SageGreen: "#697565",
+        LightBeige: "#ECDFCC",
+      },
     },
   },
   plugins: [],

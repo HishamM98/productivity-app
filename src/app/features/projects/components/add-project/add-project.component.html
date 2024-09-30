@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>{{ data?.project? 'Edit': 'Add'}} New Project</h2>
+<mat-dialog-content>
+    <div class="container w-full flex justify-center">
+        <form [formGroup]="projectForm" (ngSubmit)="submitForm()">
+            <div class="w-full m-2 p-2 flex justify-between">
+                <label for="name" class="text-lg my-auto">Project Name: </label>
+                <input
+                    class="bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    id="name" name="name" type="text" formControlName="name" placeholder="Ex. Build Website"
+                    autocomplete="name">
+            </div>
+            <div class="w-full m-2 p-2 flex justify-between">
+                <label for="description" class="text-lg my-auto">Description: </label>
+                <textarea
+                    class="bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    id="description" name="description" rows="3" cols="19" formControlName="description"
+                    placeholder="Ex. build website from scratch using..."></textarea>
+            </div>
+            <div class="w-full m-2 p-2 flex justify-between">
+                <label for="status" class="text-lg my-auto">Status: </label>
+                <select
+                    class="bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    id="status" name="status" formControlName="status">
+                    <option disabled value="">Choose Status
+                    </option>
+                    <option class="hover:bg-DarkGreen hover:text-LightBeige" value="Not Started">Not
+                        Started
+                    </option>
+                    <option class="hover:bg-DarkGreen hover:text-LightBeige" value="In Progress">In Progress</option>
+                </select>
+            </div>
+            <div class="w-full m-2 p-2 flex justify-between">
+                <label for="start-date" class="text-lg my-auto">Start Date: </label>
+                <input
+                    class="bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    id="start-date" name="start-date" type="date" formControlName="startDate" [min]="currentStartDate">
+            </div>
+            <div class="w-full m-2 p-2 flex justify-between">
+                <label for="end-date" class="text-lg my-auto">End Date: </label>
+                <input
+                    class="bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    id="end-date" name="end-date" type="date" formControlName="endDate" [min]="currentEndDate">
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-dialog-close
+        class="mr-auto py-1 px-2 rounded bg-red-700 text-black text-lg font-semibold font-mono mx-1">Close</button>
+    @if (!data?.project) {
+    <button [disabled]="projectForm.untouched && projectForm.pristine" (click)="projectForm.reset()"
+        class="py-1 px-2 rounded bg-yellow-300 text-black text-lg font-semibold font-mono mx-1">Reset</button>
+    }
+    <button (click)="submitForm()" [disabled]="projectForm.invalid"
+        class="py-1 px-2 rounded bg-LightBeige text-black text-lg font-semibold font-mono mx-1 disabled:bg-slate-500">{{
+        data?.project? 'Edit': 'Submit'}}</button>
+</mat-dialog-actions>

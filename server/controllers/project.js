@@ -1,9 +1,20 @@
+const { where } = require("sequelize");
+
 const Project = require("../models").models.projects;
 
-exports.getProjects = async (req, res) => {
+exports.getUserProjects = async (req, res) => {
   try {
-    const projects = await Project.findAll();
-    if (projects) {
+    if (!req.query.userId || isNaN(req.query.userId)) {
+      return res
+        .status(400)
+        .send({ message: "User ID is missing or not a number" });
+    }
+    const projects = await Project.findAll({
+      where: {
+        user_id: req.query.userId,
+      },
+    });
+    if (projects[0]) {
       res.json(projects);
     } else {
       res.status(404).json({ message: "No projects found" });
@@ -13,10 +24,26 @@ exports.getProjects = async (req, res) => {
   }
 };
 
-exports.getProjectById = async (req, res) => {
+exports.getUserProjectById = async (req, res) => {
   try {
-    const project = await Project.findByPk(req.params.id);
-    if (project) {
+    if (
+      !req.params.id ||
+      isNaN(req.params.id) ||
+      !req.query.userId ||
+      isNaN(req.query.userId)
+    ) {
+      return res.status(400).send({
+        message: "User ID and/or project ID is missing or not a number",
+      });
+    }
+
+    const project = await Project.findAll({
+      where: {
+        id: req.params.id,
+        user_id: req.query.userId,
+      },
+    });
+    if (project[0]) {
       res.json(project);
     } else {
       res.status(404).json({ message: "No project found" });
@@ -26,7 +53,7 @@ exports.getProjectById = async (req, res) => {
   }
 };
 
-exports.createProject = async (req, res) => {
+exports.createUserProject = async (req, res) => {
   try {
     const project = await Project.create(req.body);
     if (project) {
@@ -39,7 +66,7 @@ exports.createProject = async (req, res) => {
   }
 };
 
-exports.updateProject = async (req, res) => {
+exports.updateUserProject = async (req, res) => {
   try {
     const result = await Project.update(req.body, {
       where: {
@@ -56,7 +83,7 @@ exports.updateProject = async (req, res) => {
   }
 };
 
-exports.deleteProject = async (req, res) => {
+exports.deleteUserProject = async (req, res) => {
   try {
     const result = await Project.destroy({
       where: {

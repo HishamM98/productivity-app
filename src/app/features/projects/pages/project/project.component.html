@@ -1,0 +1,15 @@
+<section>
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <h2 class="text-2xl font-bold text-DarkGreen dark:text-LightBeige mb-4 text-center tracking-widest">Projects
+        </h2>
+        <div class="container flex gap-3 justify-center flex-wrap">
+            @for(project of projectsSignal(); track project.id){
+            <app-project-card [project]="project"></app-project-card>
+            }
+            @empty {
+            <p class="text-DarkGreen dark:text-LightBeige">No projects available, click Add Project button to add new
+                projects!</p>
+            }
+        </div>
+    </div>
+</section>

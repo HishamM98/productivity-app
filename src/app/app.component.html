@@ -1,9 +1,9 @@
-<div class="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+<div class="flex flex-col h-screen bg-LightBeige dark:bg-DarkGreen transition-colors duration-200">
   <app-header (toggleSidebar)="toggleSidebar()"></app-header>
   <div class="flex flex-1 overflow-hidden">
     <app-sidebar [isOpen]="sidebarOpen" (closeSidebar)="closeSidebar()"></app-sidebar>
     <main
-      class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 dark:bg-gray-800 transition-colors duration-200 p-4">
+      class="flex-1 overflow-x-hidden overflow-y-auto bg-LightBeige dark:bg-DarkGray transition-colors duration-200 p-4">
       <router-outlet></router-outlet>
     </main>
   </div>

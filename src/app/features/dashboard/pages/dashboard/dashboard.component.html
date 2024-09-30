@@ -1,46 +1,75 @@
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Dashboard</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+    <h2 class="text-3xl font-bold text-DarkGreen dark:text-LightBeige mb-4 tracking-wider text-center">Dashboard</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-LightBeige dark:text-DarkGreen">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Tasks Overview</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">12</div>
+                <h3 class="text-xl font-sans font-semibold">Projects Overview</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.projectCount || 0}}
+                </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Ongoing Projects</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">3</div>
+                <h3 class="text-xl font-sans font-semibold">Tasks Overview</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.taskCount || 0}}</div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Projects Completed</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">3</div>
+                <h3 class="text-xl font-sans font-semibold">Projects Pending</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.pendingProjects || 0}}
+                </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Task Pending</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">5</div>
+                <h3 class="text-xl font-sans font-semibold">Projects In Progress</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.startedProjects || 0}}
+                </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Task In Progress</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">5</div>
+                <h3 class="text-xl font-sans font-semibold">Projects Completed</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.completedProjects ||
+                    0}}
+                </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Task Completed</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">5</div>
+                <h3 class="text-xl font-sans font-semibold">Tasks Pending</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.pendingTasks || 0}}
+                </div>
             </div>
         </div>
-        <div class="bg-white dark:bg-gray-700 overflow-hidden shadow rounded-lg">
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Upcoming Deadlines</h3>
-                <div class="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">5</div>
+                <h3 class="text-xl font-sans font-semibold">Tasks In Progress</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.startedTasks || 0}}
+                </div>
+            </div>
+        </div>
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <h3 class="text-xl font-sans font-semibold">Tasks Completed</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.completedTasks || 0}}
+                </div>
+            </div>
+        </div>
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <h3 class="text-xl font-sans font-semibold">Upcoming Projects Deadlines</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">
+                    {{dashboardSig()?.projectsDeadlineCount || 0}}</div>
+            </div>
+        </div>
+        <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <h3 class="text-xl font-sans font-semibold">Upcoming Tasks Deadlines</h3>
+                <div class="mt-1 text-3xl font-semibold italic text-LightBeige">{{dashboardSig()?.tasksDeadlineCount ||
+                    0}}
+                </div>
             </div>
         </div>
     </div>

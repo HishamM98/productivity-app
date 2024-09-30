@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const db = require("./models");
 
+const dashboardRouter = require("./routes/dashboard");
 const usersRouter = require("./routes/users");
 const projectsRouter = require("./routes/projects");
 const tasksRouter = require("./routes/tasks");
@@ -14,8 +15,8 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(logger("dev"));
 app.use(cors());
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
   await db.sequelize.sync({ force: false });
 })();
 
+app.use("/dashboard", dashboardRouter);
 app.use("/users", usersRouter);
 app.use("/projects", projectsRouter);
 app.use("/tasks", tasksRouter);

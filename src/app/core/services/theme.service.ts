@@ -5,15 +5,19 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
   providedIn: 'root'
 })
 export class ThemeService {
-  private darkMode = new BehaviorSubject<boolean>(false);
+  private darkMode = new BehaviorSubject<boolean>(true);
   darkMode$ = this.darkMode.asObservable();
+
+  constructor() {
+    this.setInitialTheme();
+  }
+
+  private setInitialTheme() {
+    document.documentElement.classList.add('dark');
+  }
 
   toggleDarkMode() {
     this.darkMode.next(!this.darkMode.value);
-    if (this.darkMode.value) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark');
   }
 }

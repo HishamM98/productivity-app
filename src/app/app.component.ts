@@ -16,11 +16,10 @@ export class AppComponent implements OnInit {
   private themeService = inject(ThemeService);
   sidebarOpen = false;
 
-
   ngOnInit() {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const darkModeOn = darkModeMediaQuery.matches;
-    if (darkModeOn) {
+    const lightModeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+    const lightModeOn = lightModeMediaQuery.matches;
+    if (lightModeOn) {
       this.themeService.toggleDarkMode();
     }
   }

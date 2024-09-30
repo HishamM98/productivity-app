@@ -1,0 +1,31 @@
+<div class="bg-DarkGreen dark:bg-SageGreen p-4 rounded-lg w-80 h-full flex flex-col gap-4 justify-between">
+    <h2 class="text-SageGreen dark:text-DarkGreen text-xl font-bold">{{project.name}}</h2>
+    <p class="text-LightBeige dark:text-LightBeige">{{project.description}}</p>
+    <div class="flex justify-between">
+        <div>
+            <h4 class="text-SageGreen dark:text-DarkGreen text-lg font-mono">Start Date</h4>
+            <span class="text-sm font-sans">{{project.start_date}}</span>
+        </div>
+        <div>
+            <h4 class=" text-SageGreen dark:text-DarkGreen text-lg font-mono">Deadline</h4>
+            <span class="text-sm font-sans">{{project.end_date}}</span>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div>
+            <h4 class="text-SageGreen dark:text-DarkGreen text-lg font-mono">Status</h4>
+            <span class="text-sm font-sans" [style.color]="getStatusColor(project.status)">{{project.status}}</span>
+        </div>
+    </div>
+    <div class="flex gap-2">
+        <a title="View Tasks"
+            class="bg-DarkGray dark:bg-DarkGreen text-green-500 px-2 py-1 hover:scale-125 transition-all w-fit rounded-full cursor-pointer"><i
+                class="fa fa-eye"></i></a>
+        <button (click)="editProjectModal()" title="Edit Project"
+            class="bg-DarkGray dark:bg-DarkGreen text-yellow-500 px-2 py-1 hover:scale-125 transition-all w-fit rounded-full cursor-pointer"><i
+                class="fa fa-edit"></i></button>
+        <button (click)="removeProject(project.id!)" title="Remove Project"
+            class="bg-DarkGray dark:bg-DarkGreen text-red-600 px-2 py-1 hover:scale-125 transition-all w-fit rounded-full cursor-pointer ml-auto"><i
+                class="fa fa-trash-o"></i></button>
+    </div>
+</div>
