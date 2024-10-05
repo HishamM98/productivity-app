@@ -1,7 +1,6 @@
 import { ProjectService } from './../../services/project.service';
 import { Component, Input, inject } from '@angular/core';
 import { Project } from '../../../../shared/models/project';
-import { StatusEnum } from '../../../../shared/models/enums/status.enum';
 import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProjectComponent } from '../add-project/add-project.component';
@@ -18,11 +17,11 @@ export class ProjectCardComponent {
   private projectService = inject(ProjectService);
   private dialog = inject(MatDialog);
 
-  getStatusColor(status: StatusEnum): string {
+  getStatusColor(status: string): string {
     switch (status) {
-      case StatusEnum.Completed:
+      case "Completed":
         return 'green';
-      case StatusEnum['Not Started']:
+      case 'Not Started':
         return 'red';
       default:
         return 'yellow';

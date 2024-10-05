@@ -1,65 +1,50 @@
-import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { environment as env } from '../../../../environments/environment.development';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { Project } from '../../../shared/models/project';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
   private http = inject(HttpClient);
-  private projects = signal<Array<Project> | null>(null);
-  projectSig = computed(() => this.projects);
 
-  constructor() {
-    this.getProjects(1).pipe(
-      takeUntilDestroyed()
-    ).subscribe((projects) => {
-      this.projects.set(projects);
-    });
-  }
+  //TODO: fix userId
+  private projects$ = this.http.get<Project[]>(`${env.serverUrl}/projects?userId=1`).pipe(
+    catchError(this.handleError)
+  );
+  projects = toSignal(this.projects$, { initialValue: [] });
 
-  getProjects(userId: number): Observable<Array<Project>> {
-    return this.http.get<Array<Project>>(`${env.serverUrl}/projects?userId=${userId}`);
-  }
+  constructor() { }
 
   deleteProject(projectId: number): Observable<string> {
-    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project/${projectId}`).pipe(
-      tap(() => {
-        this.projects.update((projects) => projects!.filter(el => el.id !== projectId));
-      })
-    );
+    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project/${projectId}`);
   }
 
   addNewProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(`${env.serverUrl}/projects/create-project`, project).pipe(
-      tap((newProject) => {
-        this.projects.update((projects) => {
-          if (!projects) {
-            return [newProject];
-          }
-          return [...projects, newProject];
-        });
-      })
-    );
+    return this.http.post<Project>(`${env.serverUrl}/projects/create-project`, project);
   }
 
   updateProject(updatedProject: Project): Observable<string> {
-    return this.http.put<string>(`${env.serverUrl}/projects/update-project/${updatedProject.id}`, updatedProject).pipe(
-      tap(() => {
-        this.projects.update((projects) => {
-          if (!projects) {
-            return [updatedProject];
-          }
-          return projects.map((project) => project.id === updatedProject.id ? updatedProject : project);
-        });
-      })
-    );
+    return this.http.put<string>(`${env.serverUrl}/projects/update-project/${updatedProject.id}`, updatedProject);
   }
 
-  // getProject(projectId: number, userId: number): Observable<Array<Project>> {
-  // return this.http.get<Array<Project>>(`${env.serverUrl}/projects/${projectId}?${userId}`);
-  // }
+  private handleError(err: HttpErrorResponse): Observable<never> {
+    // in a real world app, we may send the server to some remote logging infrastructure
+    // instead of just logging it to the console
+    let errorMessage = '';
+    if (err.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${err.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message
+        }`;
+    }
+    console.error(errorMessage);
+    return throwError(() => errorMessage);
+  }
 }

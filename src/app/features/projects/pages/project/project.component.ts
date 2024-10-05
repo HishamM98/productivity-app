@@ -11,8 +11,8 @@ import { ProjectCardComponent } from "../../components/project-card/project-card
   styleUrl: './project.component.scss'
 })
 export class ProjectComponent {
-  private project$ = inject(ProjectService);
-  projectsSignal = this.project$.projectSig();
+  private projectServ = inject(ProjectService);
+  projectsSignal = this.projectServ.projects;
 
 
 }

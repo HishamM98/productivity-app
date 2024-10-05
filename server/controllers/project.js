@@ -1,6 +1,5 @@
-const { where } = require("sequelize");
-
 const Project = require("../models").models.projects;
+const Task = require("../models").models.tasks;
 
 exports.getUserProjects = async (req, res) => {
   try {
@@ -10,6 +9,7 @@ exports.getUserProjects = async (req, res) => {
         .send({ message: "User ID is missing or not a number" });
     }
     const projects = await Project.findAll({
+      // include: [{ model: Task, as: "tasks" }],
       where: {
         user_id: req.query.userId,
       },
