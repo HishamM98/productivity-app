@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment as env } from '../../../../environments/environment.development';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Project } from '../../../shared/models/project';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -15,20 +15,35 @@ export class ProjectService {
   private projects$ = this.http.get<Project[]>(`${env.serverUrl}/projects?userId=1`).pipe(
     catchError(this.handleError)
   );
-  projects = toSignal(this.projects$, { initialValue: [] });
+  private projectsImm = toSignal(this.projects$, { initialValue: [] });
+  private projectsWrittable = computed(() => signal(this.projectsImm()));
+  projects = computed(() => this.projectsWrittable()());
 
   constructor() { }
 
   deleteProject(projectId: number): Observable<string> {
-    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project/${projectId}`);
+    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project/${projectId}`).pipe(
+      tap(() => {
+        this.projectsWrittable().update(projects => projects.filter(p => p.id !== projectId));
+      }),
+      catchError(this.handleError)
+    );
   }
 
   addNewProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(`${env.serverUrl}/projects/create-project`, project);
+    return this.http.post<Project>(`${env.serverUrl}/projects/create-project`, project).pipe(
+      tap((newProject: Project) => this.projectsWrittable().update(projects => [...projects, newProject])),
+      catchError(this.handleError)
+    );
   }
 
   updateProject(updatedProject: Project): Observable<string> {
-    return this.http.put<string>(`${env.serverUrl}/projects/update-project/${updatedProject.id}`, updatedProject);
+    return this.http.put<string>(`${env.serverUrl}/projects/update-project/${updatedProject.id}`, updatedProject).pipe(
+      tap(() => {
+        this.projectsWrittable().update(projects => projects.map(p => p.id === updatedProject.id ? updatedProject : p));
+      }),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(err: HttpErrorResponse): Observable<never> {

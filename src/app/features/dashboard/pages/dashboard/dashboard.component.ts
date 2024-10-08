@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.push(this.dashService.getDashboardData(1).pipe(
       map(dashboardData => {
-        console.log(dashboardData);
         return {
           projectCount: dashboardData.userProjectsCount,
           taskCount: dashboardData.userTasksCount,
@@ -34,8 +33,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     ).subscribe({
       next: (res) => {
-        console.log(res);
-
         this.dashboardSig.set(res);
       },
       error: (err) => {

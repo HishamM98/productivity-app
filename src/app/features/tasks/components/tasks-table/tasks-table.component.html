@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort fixedLayout="true">
 
         <ng-container matColumnDef="title">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
@@ -64,16 +64,20 @@
             <td mat-cell *matCellDef="let row">
                 @if (row.status === "To Do") {
                 <button class="rounded p-2 bg-green-500 w-full my-1 text-black"
-                    (click)="changeTaskStatus(row.id, 'In Progress')">Start</button>
+                    (click)="changeTaskStatus(row.id, 'In Progress')"><i class="fa fa-hourglass-start"
+                        aria-hidden="true"></i> Start</button>
                 }
 
                 @else if (row.status === "In Progress") {
                 <button class="rounded p-2 bg-green-900 w-full my-1 text-white"
-                    (click)="changeTaskStatus(row.id, 'Done')">Finish</button>
+                    (click)="changeTaskStatus(row.id, 'Done')"><i class="fa fa-check" aria-hidden="true"></i>
+                    Finish</button>
                 }
-                <button class="rounded p-2 bg-yellow-400 w-full my-1 text-black">Edit</button>
-                <button class="rounded p-2 bg-red-600 w-full my-1 text-white"
-                    (click)="deleteTask(row.id)">Delete</button>
+                <button (click)="editTaskModal(row)" class="rounded p-2 bg-yellow-400 w-full my-1 text-black"><i
+                        class="fa fa-edit"></i>
+                    Edit</button>
+                <button class="rounded p-2 bg-red-600 w-full my-1 text-white" (click)="deleteTask(row.id)"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
             </td>
         </ng-container>
 

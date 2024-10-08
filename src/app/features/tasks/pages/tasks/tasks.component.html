@@ -2,6 +2,10 @@
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-DarkGreen dark:text-LightBeige mb-4 text-center tracking-widest">Tasks
         </h2>
+        <button (click)="openDialog()"
+            class="bg-DarkGreen hover:bg-LightBeige hover:text-DarkGreen dark:bg-LightBeige dark:hover:bg-DarkGreen dark:text-DarkGreen dark:hover:text-LightBeige font-bold py-2 px-4 rounded hidden sm:block transition-colors">
+            <i class="fa fa-sticky-note" aria-hidden="true"></i> New Task
+        </button>
         <app-tasks-table></app-tasks-table>
     </div>
 </section>

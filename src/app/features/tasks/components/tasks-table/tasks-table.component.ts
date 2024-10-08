@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, signal, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -9,7 +9,9 @@ import { TaskService } from '../../services/task.service';
 import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { ProjectService } from '../../../projects/services/project.service';
-import { map, take } from 'rxjs';
+import { take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-tasks-table',
@@ -18,10 +20,11 @@ import { map, take } from 'rxjs';
   templateUrl: './tasks-table.component.html',
   styleUrl: './tasks-table.component.scss'
 })
-export class TasksTableComponent {
-  private projectService = inject(ProjectService);
+export class TasksTableComponent implements AfterViewInit {
   private taskService = inject(TaskService);
-  tasks: Task[] = [];
+  private projectService = inject(ProjectService);
+  private dialog = inject(MatDialog);
+  tasks = this.taskService.tasks;
 
   priorityFilter = signal<string[] | null>(null);
   statusFilter = signal<string[] | null>(null);
@@ -36,24 +39,20 @@ export class TasksTableComponent {
 
 
   constructor() {
-    // Assign the data to the data source for the table to render
-    this.taskService.getTasks(1).pipe(
-      map((tasks) => {
-        tasks.forEach((task) => {
-          task.project_name = this.projectService.projects().find(el => el.id === task.project_id)?.name;
-        });
-        return tasks;
-      })
-    ).subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
-        this.filteredTasks.set(tasks);
-        this.dataSource = new MatTableDataSource(this.filteredTasks()!);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: err => console.error(err.message)
+    this.filteredTasks.set(this.tasks());
+    this.dataSource = new MatTableDataSource(this.filteredTasks()!);
+    effect(() => {
+      this.tasks().forEach(task => {
+        task.project_name = this.projectService.projects().find(project => project.id === task.project_id)?.name;
+      });
+
+      this.dataSource.data = this.tasks();
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   filterPriority(priority: string) {
@@ -64,7 +63,6 @@ export class TasksTableComponent {
       }
       return [...priorities, priority];
     });
-    console.log("Updated priority filters:", this.priorityFilter());
     this.filterTasks();
   }
 
@@ -76,7 +74,6 @@ export class TasksTableComponent {
       }
       return [...statuses, status];
     });
-    console.log("Updated status filters:", this.statusFilter());
     this.filterTasks();
   }
 
@@ -84,27 +81,20 @@ export class TasksTableComponent {
     const priorityFilters = this.priorityFilter();
     const statusFilters = this.statusFilter();
 
-    let filteredTasks = this.tasks;
+    let filteredTasks = this.tasks();
 
     if (priorityFilters && priorityFilters.length) {
-      console.log("filtering priority");
       filteredTasks = filteredTasks?.filter(task => priorityFilters.includes(task.priority)) || filteredTasks;
     }
 
     if (statusFilters && statusFilters.length) {
-      console.log("filtering status");
       filteredTasks = filteredTasks?.filter(task => statusFilters.includes(task.status)) || filteredTasks;
     }
 
-    console.log(filteredTasks);
     this.filteredTasks.set(filteredTasks);
     this.dataSource.data = this.filteredTasks()!;
   }
 
-  resetFilters(type: string) {
-    if (type === 'status') this.statusFilter.set(null);
-    if (type === 'priority') this.priorityFilter.set(null);
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -130,6 +120,17 @@ export class TasksTableComponent {
     ).subscribe({
       next: (res: string) => console.log(res),
       error: (err: Error) => console.error(err.message)
+    });
+  }
+
+  editTaskModal(task: Task): void {
+    this.dialog.open(AddTaskComponent, {
+      disableClose: false,
+      hasBackdrop: true,
+      enterAnimationDuration: 200,
+      data: {
+        task
+      },
     });
   }
 }

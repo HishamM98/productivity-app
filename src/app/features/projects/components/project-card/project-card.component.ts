@@ -45,7 +45,6 @@ export class ProjectCardComponent {
       take(1)
     ).subscribe({
       next: (res) => {
-        console.log(res);
       },
       error: (err: any) => {
         console.error(err.message);
