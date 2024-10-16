@@ -1,101 +1,93 @@
 const Project = require("../models").models.projects;
 const Task = require("../models").models.tasks;
 
-exports.getUserProjects = async (req, res) => {
+exports.getProjects = async (req, res) => {
   try {
-    if (!req.query.userId || isNaN(req.query.userId)) {
-      return res
-        .status(400)
-        .send({ message: "User ID is missing or not a number" });
-    }
     const projects = await Project.findAll({
       // include: [{ model: Task, as: "tasks" }],
       where: {
-        user_id: req.query.userId,
+        user_id: req.user.id,
       },
     });
     if (projects[0]) {
-      res.json(projects);
+      return res.json(projects);
     } else {
-      res.status(404).json({ message: "No projects found" });
+      return res.status(404).json({ message: "No projects found" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
-exports.getUserProjectById = async (req, res) => {
+exports.getProjectById = async (req, res) => {
+  if (isNaN(req.params.projectId)) {
+    return res.status(400).json({ message: "projectId must be a number" });
+  }
   try {
-    if (
-      !req.params.id ||
-      isNaN(req.params.id) ||
-      !req.query.userId ||
-      isNaN(req.query.userId)
-    ) {
-      return res.status(400).send({
-        message: "User ID and/or project ID is missing or not a number",
-      });
-    }
-
-    const project = await Project.findAll({
+    const project = await Project.findOne({
       where: {
-        id: req.params.id,
-        user_id: req.query.userId,
+        id: req.params.projectId,
+        user_id: req.user.id,
       },
     });
-    if (project[0]) {
-      res.json(project);
-    } else {
-      res.status(404).json({ message: "No project found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
-exports.createUserProject = async (req, res) => {
-  try {
-    const project = await Project.create(req.body);
     if (project) {
-      res.json(project);
+      return res.json(project);
     } else {
-      res.status(404).json({ message: "Couldn't add project" });
+      return res.status(404).json({ message: "No project found" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
-exports.updateUserProject = async (req, res) => {
+exports.createProject = async (req, res) => {
+  try {
+    const project = await Project.create({ user_id: req.user.id, ...req.body });
+    if (project) {
+      return res.json(project);
+    } else {
+      return res.status(404).json({ message: "Couldn't add project" });
+    }
+  } catch (error) {
+    console.log(error.stack);
+
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateProject = async (req, res) => {
   try {
     const result = await Project.update(req.body, {
       where: {
-        id: req.params.id,
+        id: req.query.projectId,
+        user_id: req.user.id,
       },
     });
     if (result[0]) {
-      res.json({ message: "Project updated" });
+      return res.json({ message: "Project updated" });
     } else {
-      res.status(404).json({ message: "Couldn't update project!" });
+      return res.status(404).json({ message: "Couldn't update project!" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
-exports.deleteUserProject = async (req, res) => {
+exports.deleteProject = async (req, res) => {
   try {
     const result = await Project.destroy({
       where: {
-        id: req.params.id,
+        id: req.query.projectId,
+        user_id: req.user.id,
       },
     });
     if (result) {
-      res.json({ message: "Project deleted" });
+      return res.json({ message: "Project deleted" });
     } else {
-      res.status(404).json({ message: "Couldn't delete project!" });
+      return res.status(404).json({ message: "Couldn't delete project!" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };

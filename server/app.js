@@ -3,34 +3,30 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const db = require("./models");
+const initJobs = require("./jobs");
+const { initialize } = require("./middlewares/auth");
 
-const dashboardRouter = require("./routes/dashboard");
-const usersRouter = require("./routes/users");
-const projectsRouter = require("./routes/projects");
-const tasksRouter = require("./routes/tasks");
-// const eventsRouter = require("./routes/events");
+const apiRouter = require("./routes");
 
 const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: "http://localhost:4200", credentials: true }));
 app.use(logger("dev"));
 app.use(express.json());
+app.use(initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 (async () => {
   await db.sequelize.sync({ force: false });
+  initJobs();
 })();
 
-app.use("/dashboard", dashboardRouter);
-app.use("/users", usersRouter);
-app.use("/projects", projectsRouter);
-app.use("/tasks", tasksRouter);
-// app.use("/events", eventsRouter);
+app.use("/api/v1", apiRouter);
 
 module.exports = app;
 

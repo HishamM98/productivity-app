@@ -8,14 +8,25 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        validate: {
+          isInt: true,
+        },
       },
       title: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [3, 255],
+        },
       },
       description: {
         type: DataTypes.TEXT,
         allowNull: true,
+        validate: {
+          notEmpty: true,
+          len: [3, 500],
+        },
       },
       user_id: {
         type: DataTypes.INTEGER,
@@ -46,6 +57,10 @@ module.exports = function (sequelize, DataTypes) {
       due_date: {
         type: DataTypes.DATEONLY,
         allowNull: true,
+        validate: {
+          isDate: true,
+          isAfter: Sequelize.fn("CURRENT_DATE"),
+        },
       },
     },
     {

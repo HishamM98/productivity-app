@@ -4,11 +4,12 @@ import { Project } from '../../../../shared/models/project';
 import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProjectComponent } from '../add-project/add-project.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.scss'
 })

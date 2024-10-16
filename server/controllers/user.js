@@ -2,7 +2,11 @@ const User = require("../models").models.users;
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: {
+        exclude: ["password"],
+      },
+    });
     if (users) {
       res.json(users);
     } else {
@@ -16,7 +20,9 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
-      // include: [Post],
+      attributes: {
+        exclude: ["password"],
+      },
     });
     if (user) {
       res.json(user);
@@ -28,24 +34,24 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: "Couldn't create user!" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// exports.createUser = async (req, res) => {
+//   try {
+//     const user = await User.create(req.body);
+//     if (user) {
+//       res.json(user);
+//     } else {
+//       res.status(404).json({ message: "Couldn't create user!" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 exports.updateUser = async (req, res) => {
   try {
     const result = await User.update(req.body, {
       where: {
-        id: req.params.id,
+        id: req.user.id,
       },
     });
     if (result[0]) {
@@ -62,7 +68,7 @@ exports.deleteUser = async (req, res) => {
   try {
     const result = await User.destroy({
       where: {
-        id: req.params.id,
+        id: req.user.id,
       },
     });
     if (result) {
@@ -75,36 +81,36 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.deleteUserByEmail = async (req, res) => {
-  try {
-    const result = await User.destroy({
-      where: {
-        email: req.query.email,
-      },
-    });
-    if (result) {
-      res.json({ message: "User deleted" });
-    } else {
-      res.status(404).json({ message: "Couldn't delete user!" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// exports.deleteUserByEmail = async (req, res) => {
+//   try {
+//     const result = await User.destroy({
+//       where: {
+//         email: req.query.email,
+//       },
+//     });
+//     if (result) {
+//       res.json({ message: "User deleted" });
+//     } else {
+//       res.status(404).json({ message: "Couldn't delete user!" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
-exports.deleteUserByUsername = async (req, res) => {
-  try {
-    const result = await User.destroy({
-      where: {
-        username: req.query.username,
-      },
-    });
-    if (result) {
-      res.json({ message: "User deleted" });
-    } else {
-      res.status(404).json({ message: "Couldn't delete user!" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// exports.deleteUserByUsername = async (req, res) => {
+//   try {
+//     const result = await User.destroy({
+//       where: {
+//         username: req.query.username,
+//       },
+//     });
+//     if (result) {
+//       res.json({ message: "User deleted" });
+//     } else {
+//       res.status(404).json({ message: "Couldn't delete user!" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };

@@ -11,6 +11,6 @@ export const routes: Routes = [
     { path: 'projects', loadComponent: () => import("./features/projects/pages/project/project.component").then(m => m.ProjectComponent) },
     { path: 'tasks', loadComponent: () => import("./features/tasks/pages/tasks/tasks.component").then(m => m.TasksComponent) },
     { path: 'events', loadComponent: () => import("./features/events/pages/events/events.component").then(m => m.EventsComponent) },
-    { path: '**', redirectTo: '/dashboard' }
+    { path: '**', redirectTo: 'dashboard' }
     // Add other routes as needed
 ];

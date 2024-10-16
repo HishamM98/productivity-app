@@ -3,11 +3,15 @@ const TaskTagRelation = require("../models/index").models.task_tag_relations;
 
 exports.createTask = async (req, res) => {
   try {
-    const task = await Task.create(req.body);
+    const task = await Task.create({
+      project_id: req.query.projectId,
+      user_id: req.user.id,
+      ...req.body,
+    });
     if (task) {
-      res.status(200).json(task);
+      return res.status(200).json(task);
     } else {
-      res
+      return res
         .status(400)
         .send({ message: `Error creating task: ${error.message}` });
     }
@@ -18,18 +22,15 @@ exports.createTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    if (isNaN(req.params.id)) {
-      return res.status(400).send({ message: "Task ID must be a number" });
-    }
     const result = await Task.update(req.body, {
       where: {
-        id: req.params.id,
+        id: req.query.taskId,
       },
     });
     if (result[0]) {
-      res.status(200).send({ message: `Task updated` });
+      return res.status(200).send({ message: `Task updated` });
     } else {
-      res
+      return res
         .status(400)
         .send({ message: `Error updating task: ${error.message}` });
     }
@@ -40,18 +41,15 @@ exports.updateTask = async (req, res) => {
 
 exports.deleteTask = async (req, res) => {
   try {
-    if (isNaN(req.params.id)) {
-      return res.status(400).send({ message: "Task ID must be a number" });
-    }
     const result = await Task.destroy({
       where: {
-        id: req.params.id,
+        id: req.query.taskId,
       },
     });
     if (result) {
-      res.status(200).send({ message: `Task deleted` });
+      return res.status(200).send({ message: `Task deleted` });
     } else {
-      res
+      return res
         .status(400)
         .send({ message: `Error deleting task: ${error.message}` });
     }
@@ -62,7 +60,11 @@ exports.deleteTask = async (req, res) => {
 
 exports.getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await Task.findAll({
+      where: {
+        user_id: req.user.id,
+      },
+    });
     if (tasks) {
       res.status(200).json(tasks);
     } else {
@@ -74,16 +76,20 @@ exports.getAllTasks = async (req, res) => {
 };
 
 exports.getTaskById = async (req, res) => {
+  if (isNaN(req.params.id)) {
+    return res.status(400).send({ message: "Task ID must be a number" });
+  }
   try {
-    if (isNaN(req.params.id)) {
-      return res.status(400).send({ message: "Task ID must be a number" });
-    }
-
-    const task = await Task.findByPk(req.params.id);
+    const task = await Task.findOne({
+      where: {
+        id: req.params.id,
+        user_id: req.user.id,
+      },
+    });
     if (task) {
-      res.status(200).json(task);
+      return res.status(200).json(task);
     } else {
-      res.status(404).send({ message: "No such task" });
+      return res.status(404).send({ message: "No such task" });
     }
   } catch (error) {
     res.status(500).send({ message: `Error getting task: ${error.message}` });
@@ -91,10 +97,16 @@ exports.getTaskById = async (req, res) => {
 };
 
 exports.getTasksByProjectId = async (req, res) => {
+  if (!req.params.projectId || isNaN(req.params.projectId)) {
+    return res
+      .status(400)
+      .json({ message: `projectId is missing or not a valid number` });
+  }
   try {
     const tasks = await Task.findAll({
       where: {
         project_id: req.params.projectId,
+        user_id: req.user.id,
       },
     });
     if (tasks) {
@@ -113,7 +125,7 @@ exports.getTasksByUserId = async (req, res) => {
   try {
     const task = await Task.findAll({
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
       },
     });
     if (task) {
@@ -143,36 +155,7 @@ exports.getTasksByStatus = async (req, res) => {
     const tasks = await Task.findAll({
       where: {
         status: req.query.status,
-      },
-    });
-    if (tasks[0]) {
-      res.status(200).json(tasks);
-    } else {
-      res.status(404).send({ message: "No tasks found" });
-    }
-  } catch (error) {
-    res.status(500).send({ message: `Error getting tasks: ${error.message}` });
-  }
-};
-
-exports.getUserTasksByStatus = async (req, res) => {
-  try {
-    if (
-      !req.query.status ||
-      !req.query.userId ||
-      typeof req.query.status != "string" ||
-      !isNaN(req.query.status) ||
-      isNaN(req.query.userId)
-    ) {
-      return res
-        .status(400)
-        .send({ message: "Error or missing in status/user-id parameters" });
-    }
-
-    const tasks = await Task.findAll({
-      where: {
-        user_id: req.query.userId,
-        status: req.query.status,
+        user_id: req.user.id,
       },
     });
     if (tasks[0]) {
@@ -203,6 +186,7 @@ exports.getProjectTasksByStatus = async (req, res) => {
       where: {
         project_id: req.query.projectId,
         status: req.query.status,
+        user_id: req.user.id,
       },
     });
     if (tasks[0]) {

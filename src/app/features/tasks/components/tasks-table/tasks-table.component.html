@@ -1,7 +1,7 @@
 <div class="flex flex-wrap justify-between">
     <mat-form-field class="self-end">
         <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Test Code" #input>
+        <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter(filterValue)" placeholder="Ex. Test Code" #input>
     </mat-form-field>
 
     <div class="flex flex-col">

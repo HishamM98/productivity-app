@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, inject, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -12,18 +12,22 @@ import { ProjectService } from '../../../projects/services/project.service';
 import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks-table',
   standalone: true,
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatChipsModule],
+  imports: [FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatChipsModule],
   templateUrl: './tasks-table.component.html',
   styleUrl: './tasks-table.component.scss'
 })
-export class TasksTableComponent implements AfterViewInit {
+export class TasksTableComponent implements OnInit, AfterViewInit {
   private taskService = inject(TaskService);
   private projectService = inject(ProjectService);
   private dialog = inject(MatDialog);
+  private actRoute = inject(ActivatedRoute);
+
   tasks = this.taskService.tasks;
 
   priorityFilter = signal<string[] | null>(null);
@@ -37,6 +41,8 @@ export class TasksTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  filterValue: string = '';
+
 
   constructor() {
     this.filteredTasks.set(this.tasks());
@@ -48,6 +54,13 @@ export class TasksTableComponent implements AfterViewInit {
 
       this.dataSource.data = this.tasks();
     });
+  }
+
+  ngOnInit(): void {
+    if (this.actRoute.snapshot.queryParamMap.has('project')) {
+      const value = this.actRoute.snapshot.queryParams['project'];
+      this.applyFilter(this.filterValue = value);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -96,9 +109,9 @@ export class TasksTableComponent implements AfterViewInit {
   }
 
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(value: String) {
+    // const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = value.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();

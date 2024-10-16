@@ -1,10 +1,22 @@
 const router = require("express").Router();
 const projectController = require("../controllers/project");
+const { authenticate } = require("../middlewares/auth");
+const { verifyProject } = require("../middlewares/user-project-verification");
 
-router.get("/", projectController.getUserProjects);
-router.get("/:id", projectController.getUserProjectById);
-router.post("/create-project", projectController.createUserProject);
-router.put("/update-project/:id", projectController.updateUserProject);
-router.delete("/delete-project/:id", projectController.deleteUserProject);
+router.get("/", authenticate(), projectController.getProjects);
+router.get("/:projectId", authenticate(), projectController.getProjectById);
+router.post("/create-project", authenticate(), projectController.createProject);
+router.put(
+  "/update-project",
+  authenticate(),
+  verifyProject,
+  projectController.updateProject
+);
+router.delete(
+  "/delete-project",
+  authenticate(),
+  verifyProject,
+  projectController.deleteProject
+);
 
 module.exports = router;
