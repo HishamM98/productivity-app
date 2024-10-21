@@ -8,9 +8,13 @@ table {
   height: 30%;
 }
 
+mat-chip {
+  background-color: #697565 !important;
+}
+
 .mat-mdc-standard-chip.active {
-  background-color: #181c14;
-  transform: scale(1.1);
+  background-color: #181c14 !important;
+  transform: scale(1.1) !important;
 }
 
 mat-chip-set {

@@ -13,8 +13,7 @@ export class TaskService {
   private http = inject(HttpClient);
   private projectService = inject(ProjectService);
   private projects = this.projectService.projects();
-  //TODO: fix userid
-  private tasks$ = this.http.get<Task[]>(`${env.serverUrl}/tasks/user-tasks/1`).pipe(
+  private tasks$ = this.http.get<Task[]>(`${env.serverUrl}/tasks`).pipe(
     catchError(this.handleError)
   );
   private tasksImm = toSignal(this.tasks$, { initialValue: [] });
@@ -24,7 +23,7 @@ export class TaskService {
   constructor() { }
 
   deleteTask(taskId: number): Observable<string> {
-    return this.http.delete<string>(`${env.serverUrl}/tasks/delete-task/${taskId}`).pipe(
+    return this.http.delete<string>(`${env.serverUrl}/tasks/delete-task?taskId=${taskId}`).pipe(
       tap(() => {
         this.tasksWrittable().update(tasks => tasks.filter(t => t.id !== taskId));
       }),
@@ -33,14 +32,14 @@ export class TaskService {
   }
 
   addNewTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(`${env.serverUrl}/tasks/create-task`, task).pipe(
+    return this.http.post<Task>(`${env.serverUrl}/tasks/create-task?projectId=${task.project_id}`, task).pipe(
       tap(newTask => this.tasksWrittable().update(tasks => [...tasks, newTask])),
       catchError(this.handleError)
     );
   }
 
   updateTask(updatedTask: Task): Observable<string> {
-    return this.http.put<string>(`${env.serverUrl}/tasks/update-task/${updatedTask.id}`, updatedTask).pipe(
+    return this.http.put<string>(`${env.serverUrl}/tasks/update-task?taskId=${updatedTask.id}`, updatedTask).pipe(
       tap(() => {
         this.tasksWrittable().update(tasks => tasks.map(t => t.id === updatedTask.id ? updatedTask : t));
       }),
@@ -49,7 +48,7 @@ export class TaskService {
   }
 
   updateTaskStatus(status: string, id: number): Observable<string> {
-    return this.http.put<string>(`${env.serverUrl}/tasks/update-task/${id}`, { status }).pipe(
+    return this.http.put<string>(`${env.serverUrl}/tasks/update-task?taskId=${id}`, { status }).pipe(
       tap(() => {
         this.tasksWrittable().update(tasks => tasks.map(t => t.id === id ? { ...t, status } : t));
       }),
@@ -67,8 +66,7 @@ export class TaskService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message
-        }`;
+      errorMessage = `Code: ${err.status}, ${err.error.message}`;
     }
     console.error(errorMessage);
     return throwError(() => errorMessage);

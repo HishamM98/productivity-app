@@ -1,22 +1,22 @@
 <div class="flex flex-wrap justify-between">
     <mat-form-field class="self-end">
-        <mat-label>Filter</mat-label>
+        <mat-label class="font-roboto">Filter</mat-label>
         <input matInput [(ngModel)]="filterValue" (keyup)="applyFilter(filterValue)" placeholder="Ex. Test Code" #input>
     </mat-form-field>
 
     <div class="flex flex-col">
         <mat-chip-set aria-label="Fish selection" class="mb-1">
-            <mat-label class="my-auto font-semibold">Priority:</mat-label>
+            <mat-label class="my-auto font-semibold text-black dark:text-LightBeige">Priority:</mat-label>
             <mat-chip (click)="filterPriority('High')"
                 [ngClass]="{active: priorityFilter()?.includes('High')}">High</mat-chip>
             <mat-chip (click)="filterPriority('Medium')"
                 [ngClass]="{active: priorityFilter()?.includes('Medium')}">Medium</mat-chip>
-            <mat-chip (click)="filterPriority('Low')" [ngClass]="{active: priorityFilter()?.includes('Low')}"
-                #low>Low</mat-chip>
+            <mat-chip (click)="filterPriority('Low')"
+                [ngClass]="{active: priorityFilter()?.includes('Low')}">Low</mat-chip>
         </mat-chip-set>
 
         <mat-chip-set aria-label="Fish selection" class="mb-1">
-            <mat-label class="my-auto font-semibold">Status:</mat-label>
+            <mat-label class="my-auto font-semibold text-black dark:text-LightBeige">Status:</mat-label>
             <mat-chip (click)="filterStatus('Done')"
                 [ngClass]="{active: statusFilter()?.includes('Done')}">Done</mat-chip>
             <mat-chip (click)="filterStatus('In Progress')"
@@ -30,54 +30,70 @@
     <table mat-table [dataSource]="dataSource" matSort fixedLayout="true">
 
         <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
-            <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-tasks"></i> Title
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.title}} </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
-            <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-info-circle"></i>
+                Description </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.description}} </td>
         </ng-container>
 
         <ng-container matColumnDef="project_name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Project </th>
-            <td mat-cell *matCellDef="let row"> {{row.project_name}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-paperclip"></i> Project
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.project_name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-            <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-check-circle-o"></i> Status
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.status}} </td>
         </ng-container>
 
         <ng-container matColumnDef="priority">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
-            <td mat-cell *matCellDef="let row"> {{row.priority}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-level-up"></i> Priority
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.priority}} </td>
         </ng-container>
 
         <ng-container matColumnDef="due_date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
-            <td mat-cell *matCellDef="let row"> {{row.due_date}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-calendar-times-o"></i> Due
+                Date
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins"> {{row.due_date}} </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-            <td mat-cell *matCellDef="let row">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="font-bold font-merienda text-lg text-SageGreen"><i class="mr-1 fa fa-wrench"></i> Actions
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-LightBeige font-poppins">
                 @if (row.status === "To Do") {
-                <button class="rounded p-2 bg-green-500 w-full my-1 text-black"
+                <button class="rounded p-2 bg-green-500 w-full my-1 text-black font-poppins font-bold"
                     (click)="changeTaskStatus(row.id, 'In Progress')"><i class="fa fa-hourglass-start"
                         aria-hidden="true"></i> Start</button>
                 }
 
                 @else if (row.status === "In Progress") {
-                <button class="rounded p-2 bg-green-900 w-full my-1 text-white"
+                <button class="rounded p-2 bg-green-900 w-full my-1 text-white font-poppins font-bold"
                     (click)="changeTaskStatus(row.id, 'Done')"><i class="fa fa-check" aria-hidden="true"></i>
                     Finish</button>
                 }
-                <button (click)="editTaskModal(row)" class="rounded p-2 bg-yellow-400 w-full my-1 text-black"><i
+                <button (click)="editTaskModal(row)"
+                    class="rounded p-2 bg-yellow-400 w-full my-1 text-black font-poppins font-bold"><i
                         class="fa fa-edit"></i>
                     Edit</button>
-                <button class="rounded p-2 bg-red-600 w-full my-1 text-white" (click)="deleteTask(row.id)"><i
-                        class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                <button class="rounded p-2 bg-red-600 w-full my-1 text-white font-poppins font-bold"
+                    (click)="deleteTask(row.id)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
             </td>
         </ng-container>
 

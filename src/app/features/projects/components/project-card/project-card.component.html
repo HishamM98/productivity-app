@@ -1,6 +1,10 @@
-<div class="bg-DarkGreen dark:bg-SageGreen p-4 rounded-lg w-80 h-full flex flex-col gap-4 justify-between">
-    <h2 class="text-SageGreen dark:text-DarkGreen text-xl font-bold">{{project.name}}</h2>
-    <p class="text-LightBeige dark:text-LightBeige">{{project.description}}</p>
+<div
+    class="bg-DarkGreen dark:bg-SageGreen p-4 rounded-lg w-80 h-full flex flex-col gap-4 justify-between cursor-default">
+    <h2 class="text-SageGreen dark:text-DarkGreen text-xl font-bold font-merienda">{{project.name}}</h2>
+    <p class="text-LightBeige dark:text-LightBeige line-clamp-4 hover:transition-all text-justify font-poppins"
+        [title]="project.description">
+        {{project.description}}
+    </p>
     <div class="flex justify-between">
         <div>
             <h4 class="text-SageGreen dark:text-DarkGreen text-lg font-mono">Start Date</h4>

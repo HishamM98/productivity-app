@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +10,7 @@ import { ProjectService } from '../../../projects/services/project.service';
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
   templateUrl: './add-task.component.html',
   styleUrl: './add-task.component.scss'
 })
@@ -52,12 +53,22 @@ export class AddTaskComponent {
     });
   }
 
+  resetForm() {
+    this.taskForm.reset({
+      title: '',
+      description: '',
+      projectID: '',
+      status: '',
+      priority: '',
+      dueDate: this.dueDateMin
+    });
+  }
+
   submitForm() {
     let form = this.taskForm.value;
     const task: Task = {
       title: form.title,
       description: form.description,
-      user_id: 1,
       project_id: form.projectID,
       status: form.status,
       priority: form.priority,

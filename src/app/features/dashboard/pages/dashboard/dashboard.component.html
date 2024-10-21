@@ -1,85 +1,87 @@
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-bold text-DarkGreen dark:text-LightBeige mb-4 tracking-wider text-center select-none">
+    <h2
+        class="text-3xl font-bold font-merienda text-DarkGreen dark:text-LightBeige mb-4 tracking-wider text-center select-none">
         Dashboard</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-LightBeige dark:text-DarkGreen">
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Projects Overview</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.projectCount || 0}}
+                <h3 class="text-xl font-merienda font-semibold select-none">Projects Overview</h3>
+                <div class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.projectCount || '-'}}
                 </div>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Tasks Overview</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">{{dashboardSig()?.taskCount
-                    || 0}}</div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Tasks Overview</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.taskCount
+                    || '-'}}</p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Projects Pending</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.pendingProjects || 0}}
-                </div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Projects Pending</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.pendingProjects || '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Projects In Progress</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.startedProjects || 0}}
-                </div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Projects In Progress</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.startedProjects || '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Projects Completed</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
+                <h3 class="text-xl font-merienda font-semibold select-none">Projects Completed</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
                     {{dashboardSig()?.completedProjects ||
-                    0}}
-                </div>
+                    '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Tasks Pending</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.pendingTasks || 0}}
-                </div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Tasks Pending</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.pendingTasks || '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Tasks In Progress</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.startedTasks || 0}}
-                </div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Tasks In Progress</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.startedTasks || '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Tasks Completed</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.completedTasks || 0}}
-                </div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Tasks Completed</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.completedTasks || '-'}}
+                </p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Upcoming Projects Deadlines</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
-                    {{dashboardSig()?.projectsDeadlineCount || 0}}</div>
+                <h3 class="text-xl font-merienda font-semibold select-none">Upcoming Projects Deadlines</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
+                    {{dashboardSig()?.projectsDeadlineCount || '-'}}</p>
             </div>
         </div>
         <div class="bg-DarkGreen dark:bg-SageGreen  overflow-hidden shadow rounded-lg">
             <div class="p-5">
-                <h3 class="text-xl font-sans font-semibold select-none">Upcoming Tasks Deadlines</h3>
-                <div class="mt-1 text-3xl font-semibold select-none italic text-LightBeige">
+                <h3 class="text-xl font-merienda font-semibold select-none">Upcoming Tasks Deadlines</h3>
+                <p class="mt-1 text-3xl font-poppins font-semibold select-none italic text-LightBeige">
                     {{dashboardSig()?.tasksDeadlineCount ||
-                    0}}
-                </div>
+                    '-'}}
+                </p>
             </div>
         </div>
     </div>

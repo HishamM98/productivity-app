@@ -1,0 +1,37 @@
+<div class="relative inline-block font-poppins" (mouseover)="showMenu=true" (mouseout)="showMenu=false">
+    <div>
+        <button
+            class="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md  px-2 py-2 text-sm font-semibold shadow-sm text-LightBeige dark:text-light transition-all"
+            id="menu-button" aria-expanded="true" aria-haspopup="true">
+            <img class="h-8 w-8 rounded-full" src="https://via.placeholder.com/32" alt="User avatar" />
+            <span class="ml-2">John Doe</span>
+            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                data-slot="icon">
+                <path fill-rule="evenodd"
+                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+
+    <div [ngClass]="{'absolute': showMenu, 'hidden': !showMenu}"
+        class="right-0 z-10 w-32 origin-top-right divide-y divide-LightBeige dark:divide-DarkGreen rounded-md bg-DarkGreen dark:bg-LightBeige text-LightBeige dark:text-DarkGreen shadow-[0_0_5px_0_#181c14] dark:shadow-[0_0_5px_0_#ecdfcc]  focus:outline-none text-center"
+        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+        <div class="py-1 rounded-t-md hover:bg-LightBeige dark:hover:bg-DarkGray hover:text-DarkGreen dark:hover:text-LightBeige transition-all"
+            role="none">
+            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+            <button class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0"><i
+                    class="fa fa-user mr-1"></i>Profile</button>
+        </div>
+        <div class="py-1 hover:bg-LightBeige dark:hover:bg-DarkGray hover:text-DarkGreen dark:hover:text-LightBeige transition-all"
+            role="none">
+            <button class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2"><i
+                    class="fa fa-cog mr-1"></i>Settings</button>
+        </div>
+        <div class="py-1 rounded-b-md hover:bg-LightBeige dark:hover:bg-DarkGray hover:text-DarkGreen dark:hover:text-LightBeige transition-all"
+            role="none">
+            <button (click)="logout()" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-5"><i
+                    class="fa fa-sign-out mr-1"></i>Sign Out</button>
+        </div>
+    </div>
+</div>

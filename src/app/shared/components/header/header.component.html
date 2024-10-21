@@ -7,9 +7,20 @@
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white select-none">Productivity App</h1>
+            <h1 class="text-2xl font-bold font-merienda text-gray-900 dark:text-white select-none tracking-widest">
+                Productivity App
+            </h1>
         </div>
         <div class="flex items-center">
+            <button *ngIf="auth.isLoggedInSignal()" (click)="openDialog()"
+                class="bg-SageGreen hover:bg-LightBeige hover:text-DarkGreen font-poppins dark:bg-DarkGreen dark:hover:bg-SageGreen text-DarkGreen dark:text-LightBeige font-bold py-2 px-3 rounded hidden sm:block transition-colors">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Project
+            </button>
+
+            <div *ngIf="auth.isLoggedInSignal()" class="ml-2 hidden sm:block">
+                <app-dropdown-menu></app-dropdown-menu>
+            </div>
+
             <button (click)="toggleTheme()"
                 class="mr-4 p-2 rounded-full bg-inherit dark:bg-inherit hover:bg-LightBeige dark:hover:bg-DarkGray transition-colors duration-200 text-DarkGreen dark:text-LightBeige">
                 <svg *ngIf="!(darkMode$ | async)" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
@@ -23,17 +34,6 @@
                         d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
             </button>
-            <button (click)="openDialog()"
-                class="bg-DarkGreen hover:bg-LightBeige hover:text-DarkGreen dark:bg-LightBeige dark:hover:bg-SageGreen dark:text-DarkGreen dark:hover:text-LightBeige font-bold py-2 px-4 rounded hidden sm:block transition-colors">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Project
-            </button>
-            <div class="ml-4 relative hidden sm:block">
-                <button
-                    class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                    <img class="h-8 w-8 rounded-full" src="https://via.placeholder.com/32" alt="User avatar" />
-                    <span class="ml-2">John Doe</span>
-                </button>
-            </div>
         </div>
     </div>
 </header>

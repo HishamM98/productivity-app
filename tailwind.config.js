@@ -3,6 +3,11 @@ module.exports = {
   content: ["./src/**/*.{html,ts}"],
   darkMode: "class",
   theme: {
+    fontFamily: {
+      roboto: ["Roboto", "Arial", "sans-serif"],
+      poppins: ["Poppins", "Arial", "sans-serif"],
+      merienda: ["Merienda", "Arial", "sans-serif"],
+    },
     extend: {
       colors: {
         DarkGreen: "#181C14",

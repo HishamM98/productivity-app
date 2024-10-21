@@ -1,23 +1,25 @@
-<h2 mat-dialog-title>{{ data?.task? 'Edit': 'Add New '}} Task</h2>
+<h2 mat-dialog-title class="text-center">{{ data?.task? 'Edit': 'Add New '}} Task</h2>
 <mat-dialog-content>
     <div class="container w-full flex justify-center px-8">
         <form [formGroup]="taskForm" (ngSubmit)="submitForm()">
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="title" class="text-lg my-auto">Title: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="title" class="text-lg font-roboto flex-1"><i class="fa fa-tasks"></i> Title: </label>
                 <input
-                    class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    class="flex-1 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="title" name="title" type="text" formControlName="title" placeholder="Ex. Test Code"
                     autocomplete="name">
             </div>
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="description" class="text-lg my-auto">Description: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="description" class="text-lg font-roboto flex-1"><i class="fa fa-info-circle"></i>
+                    Description: </label>
                 <textarea
-                    class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    class="flex-1 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="description" name="description" rows="3" cols="19" formControlName="description"
-                    placeholder="Ex. build website from scratch using..."></textarea>
+                    placeholder="Ex. Write Component Test Code"></textarea>
             </div>
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="project" class="text-lg my-auto">Project: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="project" class="text-lg font-roboto flex-1"><i class="fa fa-paperclip"></i> Project:
+                </label>
                 <select
                     class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="project" name="project" formControlName="projectID">
@@ -30,10 +32,11 @@
                     }
                 </select>
             </div>
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="status" class="text-lg my-auto">Status: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="status" class="text-lg font-roboto flex-1"><i class="fa fa-check-circle-o"></i> Status:
+                </label>
                 <select
-                    class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    class="flex-1 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="status" name="status" formControlName="status">
                     <option disabled value="">Choose Status
                     </option>
@@ -42,10 +45,11 @@
                     <option class="hover:bg-DarkGreen hover:text-LightBeige" value="Done">Done</option>
                 </select>
             </div>
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="priority" class="text-lg my-auto">Priority: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="priority" class="text-lg font-roboto flex-1"><i class="fa fa-level-up"></i> Priority:
+                </label>
                 <select
-                    class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    class="flex-1 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="priority" name="priority" formControlName="priority">
                     <option disabled value="">Choose Priority
                     </option>
@@ -54,10 +58,11 @@
                     <option class="hover:bg-DarkGreen hover:text-LightBeige" value="Low">Low</option>
                 </select>
             </div>
-            <div class="w-full m-2 p-2 flex justify-between">
-                <label for="due-date" class="text-lg my-auto">Due Date: </label>
+            <div class="w-full m-2 p-2 flex justify-center">
+                <label for="due-date" class="text-lg font-roboto flex-1"><i class="fa fa-calendar-times-o"></i> Due
+                    Date: </label>
                 <input
-                    class="w-1/2 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
+                    class="flex-1 bg-SageGreen focus:bg-LightBeige focus:outline-none text-black font-mono p-2 rounded text-lg placeholder:text-zinc-800"
                     id="due-date" name="due-date" type="date" formControlName="dueDate" [min]="dueDateMin">
             </div>
         </form>
@@ -65,12 +70,15 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-dialog-close
-        class="mr-auto py-1 px-2 rounded bg-red-700 text-black text-lg font-semibold font-mono mx-1">Close</button>
+        class="mr-auto py-1 px-2 rounded bg-red-700 text-black text-lg font-semibold font-mono mx-1"><i
+            class="fa fa-close"></i> Close</button>
     @if (!data?.task) {
-    <button [disabled]="taskForm.untouched && taskForm.pristine" (click)="taskForm.reset()"
-        class="py-1 px-2 rounded bg-yellow-300 text-black text-lg font-semibold font-mono mx-1">Reset</button>
+    <button [disabled]="taskForm.untouched && taskForm.pristine" (click)="resetForm()"
+        class="py-1 px-2 rounded bg-yellow-300 text-black text-lg font-semibold font-mono mx-1 disabled:bg-slate-500 disabled:cursor-not-allowed"><i
+            class="fa fa-refresh"></i> Reset</button>
     }
     <button (click)="submitForm()" [disabled]="taskForm.invalid"
-        class="py-1 px-2 rounded bg-LightBeige text-black text-lg font-semibold font-mono mx-1 disabled:bg-slate-500">{{
+        class="py-1 px-2 rounded bg-LightBeige text-black text-lg font-semibold font-mono mx-1 disabled:bg-slate-500 disabled:cursor-not-allowed"><i
+            class="fa" [ngClass]="{'fa-check': !data?.task, 'fa-edit': data?.task}"></i> {{
         data?.task? 'Edit': 'Submit'}}</button>
 </mat-dialog-actions>

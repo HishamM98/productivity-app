@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ThemeService } from './core/services/theme.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { ThemeService } from './core/services/theme.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  readonly auth = inject(AuthService);
   private themeService = inject(ThemeService);
   sidebarOpen = false;
 

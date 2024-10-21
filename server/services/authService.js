@@ -7,7 +7,7 @@ module.exports = {
   async login(username, password) {
     const user = await User.findOne({ where: { username } });
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new Error("Invalid username or password");
+      throw new Error("Invalid username or password or user doesn't exist!");
     }
     const token = jwt.sign({ id: user.id }, config.jwtSecret, {
       expiresIn: "1d",
@@ -18,9 +18,7 @@ module.exports = {
 
   async register(userData) {
     const user = await User.create(userData);
-    const token = jwt.sign({ id: user.id }, config.jwtSecret, {
-      expiresIn: "1d",
-    });
-    return { user, token };
+
+    return user;
   },
 };

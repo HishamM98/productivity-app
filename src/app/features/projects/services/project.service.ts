@@ -11,8 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class ProjectService {
   private http = inject(HttpClient);
 
-  //TODO: fix userId
-  private projects$ = this.http.get<Project[]>(`${env.serverUrl}/projects?userId=1`).pipe(
+  private projects$ = this.http.get<Project[]>(`${env.serverUrl}/projects`).pipe(
     catchError(this.handleError)
   );
   private projectsImm = toSignal(this.projects$, { initialValue: [] });
@@ -22,7 +21,7 @@ export class ProjectService {
   constructor() { }
 
   deleteProject(projectId: number): Observable<string> {
-    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project/${projectId}`).pipe(
+    return this.http.delete<string>(`${env.serverUrl}/projects/delete-project?projectId=${projectId}`).pipe(
       tap(() => {
         this.projectsWrittable().update(projects => projects.filter(p => p.id !== projectId));
       }),
@@ -38,7 +37,7 @@ export class ProjectService {
   }
 
   updateProject(updatedProject: Project): Observable<string> {
-    return this.http.put<string>(`${env.serverUrl}/projects/update-project/${updatedProject.id}`, updatedProject).pipe(
+    return this.http.put<string>(`${env.serverUrl}/projects/update-project?projectId=${updatedProject.id}`, updatedProject).pipe(
       tap(() => {
         this.projectsWrittable().update(projects => projects.map(p => p.id === updatedProject.id ? updatedProject : p));
       }),
@@ -56,8 +55,7 @@ export class ProjectService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message
-        }`;
+      errorMessage = `Code: ${err.status}, ${err.error.message}`;
     }
     console.error(errorMessage);
     return throwError(() => errorMessage);

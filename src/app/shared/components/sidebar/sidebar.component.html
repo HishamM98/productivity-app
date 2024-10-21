@@ -1,21 +1,25 @@
 <aside [class.translate-x-0]="isOpen" [class.-translate-x-full]="!isOpen"
-    class="bg-DarkGray dark:bg-SageGreen text-white h-full w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out z-20">
-    <nav>
+    class="bg-DarkGray dark:bg-SageGreen text-lg text-LightBeige dark:text-black h-full w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out z-20">
+    <nav class="divide-y divide-LightBeige dark:divide-DarkGreen">
         <a routerLink="/dashboard"
             routerLinkActive="bg-LightBeige text-DarkGreen dark:bg-DarkGreen dark:text-LightBeige"
-            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            class="block py-2.5 px-4 transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            <i class="fa fa-dashboard"></i>
             Dashboard
         </a>
         <a routerLink="/tasks" routerLinkActive="bg-LightBeige text-DarkGreen dark:bg-DarkGreen dark:text-LightBeige"
-            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            class="block py-2.5 px-4 transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            <i class="fa fa-sticky-note"></i>
             Tasks
         </a>
         <a routerLink="/projects" routerLinkActive="bg-LightBeige text-DarkGreen dark:bg-DarkGreen dark:text-LightBeige"
-            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            class="block py-2.5 px-4 transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            <i class="fa fa-paperclip"></i>
             Projects
         </a>
         <a routerLink="/events" routerLinkActive="bg-LightBeige text-DarkGreen dark:bg-DarkGreen dark:text-LightBeige"
-            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            class="block py-2.5 px-4 transition duration-200 hover:bg-SageGreen dark:hover:bg-DarkGray">
+            <i class="fa fa-calendar-check-o"></i>
             Events
         </a>
     </nav>

@@ -2,6 +2,7 @@ import { map, Subscription } from 'rxjs';
 import { DashboardService } from './../../services/dashboard.service';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { DashboardData } from '../../../../shared/models/dashboard-data';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dashboardSig = signal<DashboardData | null>(null);
 
   ngOnInit(): void {
-    this.subscriptions.push(this.dashService.getDashboardData(1).pipe(
+    this.subscriptions.push(this.dashService.getDashboardData().pipe(
       map(dashboardData => {
         return {
           projectCount: dashboardData.userProjectsCount,

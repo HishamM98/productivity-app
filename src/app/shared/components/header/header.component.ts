@@ -3,15 +3,18 @@ import { ThemeService } from '../../../core/services/theme.service';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProjectComponent } from '../../../features/projects/components/add-project/add-project.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { DropdownMenuComponent } from "../../../core/pages/auth/components/dropdown-menu/dropdown-menu.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DropdownMenuComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  auth = inject(AuthService);
   private themeService = inject(ThemeService);
   @Output() toggleSidebar = new EventEmitter<void>();
   private dialog = inject(MatDialog);

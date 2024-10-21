@@ -2,22 +2,17 @@ const { Sequelize, Op } = require("sequelize");
 const models = require("../models").models;
 
 exports.getDashboardData = async (req, res) => {
-  if (!req.params.userId || isNaN(req.params.userId)) {
-    return res
-      .status(400)
-      .send({ message: "User ID is missing or not a number" });
-  }
   try {
     const dashboardData = {};
     dashboardData.userProjectsCount = await models.projects.count({
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
       },
     });
 
     dashboardData.userTasksCount = await models.tasks.count({
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
       },
     });
 
@@ -25,7 +20,7 @@ exports.getDashboardData = async (req, res) => {
       group: "status",
       attributes: ["status"],
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
       },
     });
 
@@ -33,13 +28,13 @@ exports.getDashboardData = async (req, res) => {
       group: "status",
       attributes: ["status"],
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
       },
     });
 
     dashboardData.userProjectsDeadlineCount = await models.projects.count({
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
         end_date: {
           [Op.and]: [
             { [Op.gte]: Sequelize.fn("CURDATE") },
@@ -55,7 +50,7 @@ exports.getDashboardData = async (req, res) => {
 
     dashboardData.userTasksDeadlineCount = await models.tasks.count({
       where: {
-        user_id: req.params.userId,
+        user_id: req.user.id,
         due_date: {
           [Op.and]: [
             { [Op.gte]: Sequelize.fn("CURDATE") },
@@ -70,12 +65,12 @@ exports.getDashboardData = async (req, res) => {
     });
 
     if (dashboardData) {
-      res.json(dashboardData);
+      return res.json(dashboardData);
     } else {
-      res.status(404).json({ message: "Error getting dashboard data" });
+      return res.status(404).json({ message: "Error getting dashboard data" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 

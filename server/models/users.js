@@ -53,7 +53,6 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notEmpty: true,
           isAlpha: {
-            args: ["i"],
             msg: "First name should only contain alphabetical characters.",
           },
           len: [2, 50],
@@ -63,7 +62,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(50),
         set(value) {
           this.setDataValue(
-            "first_name",
+            "last_name",
             value[0].toUpperCase() + value.slice(1).toLowerCase()
           );
         },
@@ -71,8 +70,7 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notEmpty: true,
           isAlpha: {
-            args: ["i"],
-            msg: "First name should only contain alphabetical characters.",
+            msg: "Last name should only contain alphabetical characters.",
           },
           len: [2, 50],
         },

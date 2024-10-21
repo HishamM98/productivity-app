@@ -34,3 +34,4 @@ module.exports = app;
 // TODO: implement task tags func
 // TODO: retouch endpoints validation
 // TODO: check for needed functionality
+// TODO: implement sequelize hooks to check dates and statuses of tasks and projects

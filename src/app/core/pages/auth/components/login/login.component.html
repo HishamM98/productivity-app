@@ -1,0 +1,50 @@
+<div
+    class="px-8 py-5 w-80 rounded-3xl border border-solid text-DarkGreen dark:text-LightBeige border-DarkGreen dark:border-LightBeige backdrop-blur bg-[rgba(0,0,0,0.05)] shadow-[0_0_5px_0_rgba(0,0,0,1)] dark:shadow-[0_0_5px_0_rgba(255,255,255,1)]">
+
+    <h3 class="text-2xl tracking-widest font-bold font-merienda text-center mb-3">Login</h3>
+
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="flex flex-col gap-3">
+        <div class="flex flex-col gap-2">
+            <label for="username" class="font-roboto font-bold">Username: </label>
+            <input id="username" #username="ngModel"
+                class="rounded-lg bg-SageGreen transition-all focus:outline-none dark:bg-DarkGray bg-opacity-35 p-2"
+                name="username"
+                [ngClass]="{'focus:outline-green-700': username.valid, 'focus:outline-red-700': username.invalid}"
+                type="text" required minlength="3" maxlength="50" autocomplete="username" ngModel
+                pattern="^[a-zA-Z0-9_-]{3,50}$">
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label for="password" class="font-roboto font-bold">Password: </label>
+            <div class="relative">
+                <input id="password" #password="ngModel"
+                    class="w-full  rounded-lg bg-SageGreen transition-all focus:outline-none dark:bg-DarkGray bg-opacity-35 p-2"
+                    [ngClass]="{'focus:outline-green-700': password.valid, 'focus:outline-red-700': password.invalid}"
+                    name="password" [type]="passwordType" minlength="10" maxlength="255" required
+                    autocomplete="current-password" ngModel>
+                <!-- TODO: uncomment pattern pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{10,}$" -->
+                <i class="fa fa-eye absolute right-3 inset-y-3 cursor-pointer hover:drop-shadow-[0_0_5px_rgba(0,0,0,1)] dark:hover:drop-shadow-[0_0_5px_rgba(255,255,255,1)] transition"
+                    (mousedown)="passwordType = 'text'" (mouseup)="passwordType = 'password'" title="show password"></i>
+            </div>
+        </div>
+
+        @if (error) {
+        <p class="text-sm select-none text-red-600">{{error}}
+        </p>
+        }
+
+        @if ((username.invalid && username.touched) || (password.invalid && password.touched)) {
+        <p class="text-sm select-none text-red-600">Invalid Username/Password!
+        </p>
+        }
+
+        <p class="text-sm select-none">New User? <a
+                class="text-green-700 font-bold underline cursor-pointer hover:italic transition-all hover:text-green-500"
+                routerLink="/auth/register">Register</a>
+        </p>
+
+        <button [title]="loginForm.invalid? 'Invalid' : ''" type="submit"
+            class="mt-3 w-fit mx-auto rounded-xl py-2 px-4 text-xl bg-DarkGreen dark:bg-LightBeige text-LightBeige dark:text-DarkGreen hover:scale-105 hover:shadow-[0_0_10px_0_#181c14] dark:hover:shadow-[0_0_10px_0_#ecdfcc] transition-all disabled:bg-gray-700 dark:disabled:bg-gray-700 disabled:hover:shadow-none dark:disabled:hover:shadow-none disabled:hover:scale-100 disabled:text-gray-400 dark:disabled:text-gray-400"
+            [disabled]="loginForm.invalid">Login</button>
+    </form>
+</div>

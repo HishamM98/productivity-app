@@ -1,15 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Project } from '../../../../shared/models/project';
 import { ProjectService } from '../../services/project.service';
 import { take } from 'rxjs';
-import { createDateRangeValidator } from '../../../../core/validators/date.validators';
+import { dateRangeValidator } from '../../../../core/validators/date.validator';
 
 @Component({
   selector: 'app-add-project',
   standalone: true,
-  imports: [ReactiveFormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
   templateUrl: './add-project.component.html',
   styleUrl: './add-project.component.scss'
 })
@@ -42,14 +43,26 @@ export class AddProjectComponent {
   }
 
   initForm() {
+    const options: AbstractControlOptions = {
+      validators: [dateRangeValidator]
+    };
+
     this.projectForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
-      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(500)]],
       status: ['Not Started', [Validators.required]],
       startDate: [this.currentStartDate, [Validators.required]],
       endDate: [this.currentEndDate, [Validators.required]]
-    }, {
-      validators: [createDateRangeValidator()]
+    }, options);
+  }
+
+  resetForm() {
+    this.projectForm.reset({
+      name: '',
+      description: '',
+      status: 'Not Started',
+      startDate: this.currentStartDate,
+      endDate: this.currentEndDate
     });
   }
 
@@ -58,7 +71,6 @@ export class AddProjectComponent {
     const project: Project = {
       name: form.name,
       description: form.description,
-      user_id: 1,
       status: form.status,
       start_date: form.startDate,
       end_date: form.endDate

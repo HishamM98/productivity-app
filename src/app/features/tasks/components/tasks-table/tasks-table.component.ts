@@ -23,6 +23,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './tasks-table.component.scss'
 })
 export class TasksTableComponent implements OnInit, AfterViewInit {
+
+  // TODO:Fix task project name mapping
   private taskService = inject(TaskService);
   private projectService = inject(ProjectService);
   private dialog = inject(MatDialog);

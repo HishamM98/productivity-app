@@ -1,5 +1,6 @@
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 const helmet = require("helmet");
 const User = require("../models").models.users;
 const config = require("../config/auth");
@@ -11,7 +12,7 @@ function cookieExtractor(req) {
 }
 
 const options = {
-  jwtFromRequest: cookieExtractor,
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.jwtSecret,
 };
 
