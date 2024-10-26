@@ -53,6 +53,24 @@ export class AuthService {
   }
 
   /**
+   * a user register function
+   * @param userData 
+   * @returns observable of type User
+   */
+  refreshAuthToken(): Observable<{ token: string; }> {
+    return this.http.get<{ token: string; }>(`${env.serverUrl}/auth/refresh`, {
+      withCredentials: true
+    }).pipe(
+      take(1),
+      tap(res => {
+        console.log(res);
+        localStorage.setItem('authToken', res.token);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
    * a user logout function
    */
   logout(): void {

@@ -12,7 +12,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', component: DashboardComponent },
-            { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard], title: "Dashboard" },
+            { path: 'dashboard', component: DashboardComponent, title: "Dashboard" },
             { path: 'projects', loadComponent: () => import("./features/projects/pages/project/project.component").then(c => c.ProjectComponent), title: "Projects" },
             { path: 'tasks', loadComponent: () => import("./features/tasks/pages/tasks/tasks.component").then(c => c.TasksComponent), title: "Tasks" },
             { path: 'events', loadComponent: () => import("./features/events/pages/events/events.component").then(c => c.EventsComponent), title: "Events" },

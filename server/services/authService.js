@@ -13,7 +13,9 @@ module.exports = {
       expiresIn: "1d",
     });
 
-    return { user, token };
+    const refreshToken = createRefreshToken(user.id);
+
+    return { user, token, refreshToken };
   },
 
   async register(userData) {
@@ -21,4 +23,26 @@ module.exports = {
 
     return user;
   },
+
+  async refreshToken(refreshToken) {
+    const decoded = jwt.verify(refreshToken, config.refreshJwtSecret);
+    const user = await User.findByPk(decoded.id);
+
+    if (!user) {
+      throw new Error("Tampered Token!");
+    }
+
+    const newToken = jwt.sign({ id: user.id }, config.jwtSecret, {
+      expiresIn: "1d",
+    });
+
+    return newToken;
+  },
 };
+
+function createRefreshToken(id) {
+  const refreshToken = jwt.sign({ id }, config.refreshJwtSecret, {
+    expiresIn: "7d",
+  });
+  return refreshToken;
+}

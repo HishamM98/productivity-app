@@ -5,12 +5,6 @@ const helmet = require("helmet");
 const User = require("../models").models.users;
 const config = require("../config/auth");
 
-function cookieExtractor(req) {
-  var token = null;
-  if (req && req.cookies) token = req.cookies["auth"];
-  return token;
-}
-
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: config.jwtSecret,
